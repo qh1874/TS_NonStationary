@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import statsmodels.stats.api as sms
 import time
 from MAB import GenericMAB as GMAB
 from generate_data import generate_arm_Gauss
 from param import *
+from utils import comma_format
 
 #np.seterr(all='raise')
 
@@ -36,7 +38,7 @@ TS_data = mab.MC_regret('TS_gaussian', N, T,{},store_step=1)
 LBSDA_data = mab.MC_regret('LB_SDA', N, T, param_lbsda, store_step=1)
 
 rr=np.zeros(8)
-L=['DS_UCB_data','SW_UCB_data','SW_TS_data','DS_TS_data','LBSDA_data','TS_data']
+L=['DS_UCB_data','SW_UCB_data','SW_TS_data','DS_TS_data','TS_data','LBSDA_data']
 ii=0
 for i in L:
     print(i+":",eval(i)[0][-1])
@@ -85,8 +87,13 @@ low_bound, high_bound = sms.DescrStatsW(DS_TS_data1).tconfint_mean(alpha=alpha)
 plt.plot(xx, DS_TS_data[0][xx], '-ro', markerfacecolor='none', label='DS-TS')
 plt.fill_between(xxx, low_bound, high_bound, alpha=0.5,color='r')
 
+
+ax=plt.gca()
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
+
 plt.legend()
 plt.xlabel('Round t')
 plt.ylabel('Regret')
-plt.savefig('pics/gauss2.pdf')
+#plt.savefig('pics/gauss2.pdf')
 plt.show()

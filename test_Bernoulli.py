@@ -1,10 +1,12 @@
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import statsmodels.stats.api as sms
 from MAB import GenericMAB as GMAB
 from generate_data import generate_arm_Bernoulli
 from param_ber import *
+from utils import comma_format
 
 T=param['T'] # Number of rounds
 K=param['K'] # Number of Arms
@@ -95,11 +97,14 @@ low_bound, high_bound = sms.DescrStatsW(TS_data1).tconfint_mean(alpha=alpha)
 plt.plot(xx, TS_data[0][xx], color='brown',marker='*', markerfacecolor='none', label='TS')
 plt.fill_between(xxx, low_bound, high_bound, alpha=0.5,color='brown')
 
+ax=plt.gca()
+ax.xaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
 
 plt.legend()
 plt.xlabel('Round t')
 plt.ylabel('Regret')
-plt.savefig('pics/ber2.pdf')
+#plt.savefig('pics/ber2.pdf')
 plt.show()
 
 

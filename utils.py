@@ -9,6 +9,8 @@ import pickle
 
 eps = 1e-15  #: Threshold value: everything in [0, 1] is truncated to [eps, 1 - eps]
 
+def comma_format(x, pos):
+    return "{:,}".format(int(x))
 
 @jit(nopython=True)
 def rd_argmax(vector):

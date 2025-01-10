@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+
+from utils import comma_format
 plt.rc('text', usetex=True)
 
 def get_reward_distribution_Gauss(T,K,m,seed):
@@ -28,6 +31,9 @@ def generate_arm_Gauss(T,K,m,seed):
     for i in range(K):
         plt.plot(test_normal[:,i,0],label='Arm '+str(i+1))
     #plt.title("T : {}, arms : {}, breakpoints: {} ".format(T, K, int(T / m)))
+    ax=plt.gca()
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
     plt.legend()
     plt.xlabel('Round t')
     plt.ylabel(r'$\mu_t(i)$')
@@ -56,6 +62,9 @@ def generate_arm_Bernoulli(T,K,m,seed):
     for i in range(K):
         plt.plot(test_bernoulli[:,i],label='Arm '+str(i+1))
     #plt.title("T : {}, arms : {}, breakpoints: {} ".format(T, K, int(T / m)))
+    ax=plt.gca()
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
+    ax.yaxis.set_major_formatter(ticker.FuncFormatter(comma_format))
     plt.legend()
     plt.xlabel('Round t')
     plt.ylabel(r'$\mu_t(i)$')
